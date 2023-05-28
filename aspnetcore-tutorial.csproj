@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>aspnetcore_tutorial</RootNamespace>
+    <UserSecretsId>bdc34adc-4afe-4d39-852f-864e986d2675</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
