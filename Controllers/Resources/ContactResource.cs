@@ -1,7 +1,6 @@
-namespace aspnetcore_tutorial.Models
+namespace aspnetcore_tutorial.Controllers.Resources
 {
-    [Owned]
-    public class Contact
+    public class ContactResource
     {
         [Required]
         [StringLength(255)]

@@ -6,22 +6,22 @@ namespace aspnetcore_tutorial.Controllers
     [ApiController]
     public class MakesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly AppDbContext context;
+        private readonly IMapper mapper;
 
         public MakesController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Makes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MakeResource>>> GetMakes()
         {
-            var makes = await _context.Makes.Include(m => m.Models).ToListAsync();
+            var makes = await context.Makes.Include(m => m.Models).ToListAsync();
 
-            return _mapper.Map<List<Make>, List<MakeResource>>(makes);
+            return mapper.Map<List<Make>, List<MakeResource>>(makes);
         }
     }
 }
