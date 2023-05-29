@@ -5,9 +5,11 @@ namespace aspnetcore_tutorial.Controllers
     public class VehiclesController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly AppDbContext context;
 
-        public VehiclesController(IMapper mapper)
+        public VehiclesController(IMapper mapper, AppDbContext context)
         {
+            this.context = context;
             this.mapper = mapper;
 
         }
@@ -17,7 +19,12 @@ namespace aspnetcore_tutorial.Controllers
         {
             var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
 
-            return Ok(vehicle);
+            context.Vehicles.Add(vehicle);
+            await context.SaveChangesAsync();
+
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
+
+            return Ok(result);
         }
     }
 }

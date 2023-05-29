@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspnetcore_tutorial.Persistence;
 
@@ -10,9 +11,11 @@ using aspnetcore_tutorial.Persistence;
 namespace aspnetcore_tutorial.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529095810_UpdateVehicleFeature")]
+    partial class UpdateVehicleFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +109,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("VehiclesFeatures");
+                    b.ToTable("VehicleFeatures");
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.Model", b =>

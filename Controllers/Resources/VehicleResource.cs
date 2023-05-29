@@ -2,6 +2,7 @@ namespace aspnetcore_tutorial.Controllers.Resources
 {
     public class VehicleResource
     {
+        public int Id { get; set; }
         public int ModelId { get; set; }
         public bool IsRegistered { get; set; }
         public ContactResource Contact { get; set; }

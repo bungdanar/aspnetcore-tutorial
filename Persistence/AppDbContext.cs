@@ -18,11 +18,9 @@ namespace aspnetcore_tutorial.Persistence
             modelBuilder.Entity<Vehicle>()
                 .HasMany(e => e.Features)
                 .WithMany(e => e.Vehicles)
-                .UsingEntity(
-                    "VehiclesFeatures",
-                    l => l.HasOne(typeof(Feature)).WithMany().HasForeignKey("FeatureId").HasPrincipalKey(nameof(Feature.Id)),
-                    r => r.HasOne(typeof(Vehicle)).WithMany().HasForeignKey("VehicleId").HasPrincipalKey(nameof(Vehicle.Id)),
-                    j => j.HasKey("VehicleId", "FeatureId")
+                .UsingEntity<VehicleFeature>(
+                    l => l.HasOne<Feature>().WithMany().HasForeignKey(vf => vf.FeatureId),
+                    r => r.HasOne<Vehicle>().WithMany().HasForeignKey(vf => vf.VehicleId)
                 );
         }
     }

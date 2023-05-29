@@ -8,6 +8,14 @@ namespace aspnetcore_tutorial.Mapping
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
             CreateMap<Feature, FeatureResource>();
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource
+                {
+                    Name = v.Contact.Name,
+                    Email = v.Contact.Email,
+                    Phone = v.Contact.Phone
+                }))
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.Id)));
 
             // API Resource to Domain
             CreateMap<VehicleResource, Vehicle>()
