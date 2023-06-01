@@ -32,7 +32,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features");
+                    b.ToTable("Features", (string)null);
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.Make", b =>
@@ -48,7 +48,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Makes");
+                    b.ToTable("Makes", (string)null);
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.Model", b =>
@@ -69,7 +69,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasIndex("MakeId");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.Vehicle", b =>
@@ -91,7 +91,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.VehicleFeature", b =>
@@ -106,7 +106,7 @@ namespace aspnetcore_tutorial.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("VehiclesFeatures");
+                    b.ToTable("VehiclesFeatures", (string)null);
                 });
 
             modelBuilder.Entity("aspnetcore_tutorial.Models.Model", b =>
@@ -128,7 +128,7 @@ namespace aspnetcore_tutorial.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("aspnetcore_tutorial.Models.Contact", "Contact", b1 =>
+                    b.OwnsOne("aspnetcore_tutorial.Models.Vehicle.Contact#aspnetcore_tutorial.Models.Contact", "Contact", b1 =>
                         {
                             b1.Property<int>("VehicleId")
                                 .HasColumnType("int");
@@ -150,7 +150,7 @@ namespace aspnetcore_tutorial.Migrations
 
                             b1.HasKey("VehicleId");
 
-                            b1.ToTable("Vehicles");
+                            b1.ToTable("Vehicles", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VehicleId");

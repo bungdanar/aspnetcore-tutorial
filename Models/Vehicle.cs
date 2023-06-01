@@ -10,10 +10,12 @@ namespace aspnetcore_tutorial.Models
         public Contact Contact { get; set; }
         public DateTime LastUpdated { get; set; }
         public ICollection<Feature> Features { get; set; }
+        public ICollection<VehicleFeature> VehicleFeatures { get; set; }
 
         public Vehicle()
         {
             Features = new Collection<Feature>();
+            VehicleFeatures = new Collection<VehicleFeature>();
         }
     }
 }

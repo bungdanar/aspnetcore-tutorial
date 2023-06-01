@@ -15,7 +15,7 @@ namespace aspnetcore_tutorial.Mapping
                     Email = v.Contact.Email,
                     Phone = v.Contact.Phone
                 }))
-                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.Id)));
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.VehicleFeatures.Select(vf => vf.FeatureId)));
 
             // API Resource to Domain
             CreateMap<VehicleResource, Vehicle>()
@@ -25,7 +25,10 @@ namespace aspnetcore_tutorial.Mapping
                     Email = vr.Contact.Email,
                     Phone = vr.Contact.Phone
                 }))
-                .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new Feature { Id = id })));
+                // .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new Feature { Id = id })));
+                .ForMember(v => v.Features, opt => opt.Ignore())
+                .ForMember(v => v.VehicleFeatures, opt => opt.MapFrom(vr => vr.Features.Select(id => new VehicleFeature { FeatureId = id })));
+
         }
     }
 }
