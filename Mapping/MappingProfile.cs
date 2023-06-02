@@ -32,6 +32,7 @@ namespace aspnetcore_tutorial.Mapping
                 .AfterMap((vr, v) =>
                 {
                     // Remove unselected features
+                    // Using standar loop
                     var removedFeatures = new List<VehicleFeature>();
                     foreach (var f in v.VehicleFeatures)
                     {
@@ -41,19 +42,28 @@ namespace aspnetcore_tutorial.Mapping
                         }
                     }
 
+                    // Using LINQ (has bug!)
+                    // var removedFeatures = v.VehicleFeatures.Where(f => !vr.Features.Contains(f.FeatureId));
                     foreach (var f in removedFeatures)
-                    {
                         v.VehicleFeatures.Remove(f);
-                    }
 
                     // Add new features
-                    foreach (var id in vr.Features)
-                    {
-                        if (!v.VehicleFeatures.Any(f => f.FeatureId == id))
-                        {
-                            v.VehicleFeatures.Add(new VehicleFeature { FeatureId = id });
-                        }
-                    }
+                    // Using standard loop
+                    // foreach (var id in vr.Features)
+                    // {
+                    //     if (!v.VehicleFeatures.Any(f => f.FeatureId == id))
+                    //     {
+                    //         v.VehicleFeatures.Add(new VehicleFeature { FeatureId = id });
+                    //     }
+                    // }
+
+                    // Using LINQ
+                    var addedFeatures = vr.Features
+                                            .Where(id => !v.VehicleFeatures.Any(f => f.FeatureId == id))
+                                            .Select(id => new VehicleFeature { FeatureId = id });
+
+                    foreach (var f in addedFeatures)
+                        v.VehicleFeatures.Add(f);
                 });
 
         }
