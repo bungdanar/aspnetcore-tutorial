@@ -6,9 +6,11 @@ namespace aspnetcore_tutorial.Controllers
     {
         private readonly IMapper mapper;
         private readonly AppDbContext context;
+        private readonly IVehicleRepository repository;
 
-        public VehiclesController(IMapper mapper, AppDbContext context)
+        public VehiclesController(IMapper mapper, AppDbContext context, IVehicleRepository repository)
         {
+            this.repository = repository;
             this.context = context;
             this.mapper = mapper;
 
@@ -32,7 +34,9 @@ namespace aspnetcore_tutorial.Controllers
             context.Vehicles.Add(vehicle);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
+            vehicle = await repository.GetVehicle(vehicle.Id);
+
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(result);
         }
@@ -42,7 +46,7 @@ namespace aspnetcore_tutorial.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.Include(v => v.VehicleFeatures).SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
                 return NotFound();
@@ -52,7 +56,7 @@ namespace aspnetcore_tutorial.Controllers
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
+            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
 
             return Ok(result);
         }
@@ -74,11 +78,7 @@ namespace aspnetcore_tutorial.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetVehicle(int id)
         {
-            var vehicle = await context.Vehicles
-                                            .Include(v => v.Features)
-                                            .Include(v => v.Model)
-                                                .ThenInclude(m => m.Make)
-                                            .SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
                 return NotFound();
