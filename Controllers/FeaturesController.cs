@@ -15,11 +15,11 @@ namespace aspnetcore_tutorial.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FeatureResource>>> GetFeatures()
+        public async Task<ActionResult<IEnumerable<KeyValuePairResource>>> GetFeatures()
         {
             var features = await context.Features.ToListAsync();
 
-            return mapper.Map<List<Feature>, List<FeatureResource>>(features);
+            return mapper.Map<List<Feature>, List<KeyValuePairResource>>(features);
         }
     }
 }

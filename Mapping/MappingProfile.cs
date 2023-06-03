@@ -6,9 +6,9 @@ namespace aspnetcore_tutorial.Mapping
         {
             // Domain to API Resource
             CreateMap<Make, MakeResource>();
-            CreateMap<Model, ModelResource>();
-            CreateMap<Feature, FeatureResource>();
-            CreateMap<Vehicle, VehicleResource>()
+            CreateMap<Model, KeyValuePairResource>();
+            CreateMap<Feature, KeyValuePairResource>();
+            CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource
                 {
                     Name = v.Contact.Name,
@@ -17,8 +17,18 @@ namespace aspnetcore_tutorial.Mapping
                 }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.VehicleFeatures.Select(vf => vf.FeatureId)));
 
+            CreateMap<Vehicle, VehicleResource>()
+                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource
+                 {
+                     Name = v.Contact.Name,
+                     Email = v.Contact.Email,
+                     Phone = v.Contact.Phone
+                 }))
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(f => new KeyValuePairResource { Id = f.Id, Name = f.Name })))
+                .ForMember(vr => vr.Make, opt => opt.MapFrom(v => new MakeResource { Id = v.Model.Make.Id, Name = v.Model.Make.Name }));
+
             // API Resource to Domain
-            CreateMap<VehicleResource, Vehicle>()
+            CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.Contact, opt => opt.MapFrom(vr => new Contact
                 {
