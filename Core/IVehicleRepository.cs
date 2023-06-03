@@ -1,4 +1,4 @@
-namespace aspnetcore_tutorial.Persistence
+namespace aspnetcore_tutorial.Core
 {
     public interface IVehicleRepository
     {

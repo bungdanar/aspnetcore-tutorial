@@ -1,4 +1,4 @@
-namespace aspnetcore_tutorial.Models
+namespace aspnetcore_tutorial.Core.Models
 {
     [Table("Vehicles")]
     public class Vehicle

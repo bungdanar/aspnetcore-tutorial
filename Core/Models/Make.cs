@@ -1,5 +1,5 @@
 
-namespace aspnetcore_tutorial.Models
+namespace aspnetcore_tutorial.Core.Models
 {
     [Table("Makes")]
     public class Make

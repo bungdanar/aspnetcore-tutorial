@@ -8,6 +8,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using AutoMapper;
 
 global using aspnetcore_tutorial.Persistence;
-global using aspnetcore_tutorial.Models;
+global using aspnetcore_tutorial.Core.Models;
 global using aspnetcore_tutorial.Controllers.Resources;
 global using aspnetcore_tutorial.Mapping;
+global using aspnetcore_tutorial.Core;
