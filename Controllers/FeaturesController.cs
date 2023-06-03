@@ -4,22 +4,21 @@ namespace aspnetcore_tutorial.Controllers
     [ApiController]
     public class FeaturesController : ControllerBase
     {
-        private readonly AppDbContext context;
         private readonly IMapper mapper;
+        private readonly IFeatureRepository repository;
 
-        public FeaturesController(AppDbContext context, IMapper mapper)
+        public FeaturesController(IMapper mapper, IFeatureRepository repository)
         {
+            this.repository = repository;
             this.mapper = mapper;
-            this.context = context;
-
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<KeyValuePairResource>>> GetFeatures()
+        public async Task<ActionResult> GetFeatures()
         {
-            var features = await context.Features.ToListAsync();
+            var features = await repository.GetFeatures();
 
-            return mapper.Map<List<Feature>, List<KeyValuePairResource>>(features);
+            return Ok(mapper.Map<List<Feature>, List<KeyValuePairResource>>(features));
         }
     }
 }
