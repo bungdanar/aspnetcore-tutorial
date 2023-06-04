@@ -94,9 +94,9 @@ namespace aspnetcore_tutorial.Controllers
         {
             var filter = mapper.Map<VehicleQueryResource, VehicleQuery>(filterResource);
 
-            var vehicles = await repository.GetVehicles(filter);
+            var queryResult = await repository.GetVehicles(filter);
 
-            return Ok(mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles));
+            return Ok(mapper.Map<QueryResult<Vehicle>, QueryResultResource<VehicleResource>>(queryResult));
         }
     }
 }
