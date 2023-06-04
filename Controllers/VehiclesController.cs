@@ -88,5 +88,15 @@ namespace aspnetcore_tutorial.Controllers
 
             return Ok(vehicleResource);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetVehicles([FromQuery] VehicleQueryResource filterResource)
+        {
+            var filter = mapper.Map<VehicleQueryResource, VehicleQuery>(filterResource);
+
+            var vehicles = await repository.GetVehicles(filter);
+
+            return Ok(mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles));
+        }
     }
 }

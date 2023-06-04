@@ -5,5 +5,6 @@ namespace aspnetcore_tutorial.Core
         Task<Vehicle?> GetVehicle(int id, bool includeRelated = true);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);
+        Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj);
     }
 }

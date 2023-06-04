@@ -28,6 +28,7 @@ namespace aspnetcore_tutorial.Mapping
                 .ForMember(vr => vr.Make, opt => opt.MapFrom(v => new MakeResource { Id = v.Model.Make.Id, Name = v.Model.Make.Name }));
 
             // API Resource to Domain
+            CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.Contact, opt => opt.MapFrom(vr => new Contact

@@ -30,5 +30,35 @@ namespace aspnetcore_tutorial.Persistence
         {
             context.Vehicles.Remove(vehicle);
         }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
+        {
+            var query = context.Vehicles
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
+                .Include(v => v.Features)
+                .AsQueryable();
+
+            if (queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+
+            if (queryObj.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+            {
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["contactName"] = v => v.Contact.Name,
+                ["id"] = v => v.Id,
+            };
+
+            if (queryObj.IsSortAscending)
+                query = query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+
+            return await query.ToListAsync();
+        }
     }
 }
