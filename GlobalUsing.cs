@@ -13,3 +13,4 @@ global using aspnetcore_tutorial.Core.Models;
 global using aspnetcore_tutorial.Controllers.Resources;
 global using aspnetcore_tutorial.Mapping;
 global using aspnetcore_tutorial.Core;
+global using aspnetcore_tutorial.Extensions;

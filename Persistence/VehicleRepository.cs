@@ -50,15 +50,14 @@ namespace aspnetcore_tutorial.Persistence
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.Contact.Name,
-                ["id"] = v => v.Id,
+                // ["id"] = v => v.Id,
             };
 
-            if (queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+            query = query.ApplyOrdering(queryObj, columnsMap);
 
             return await query.ToListAsync();
         }
+
+
     }
 }
