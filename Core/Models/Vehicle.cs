@@ -11,11 +11,13 @@ namespace aspnetcore_tutorial.Core.Models
         public DateTime LastUpdated { get; set; }
         public ICollection<Feature> Features { get; set; }
         public ICollection<VehicleFeature> VehicleFeatures { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
         public Vehicle()
         {
             Features = new Collection<Feature>();
             VehicleFeatures = new Collection<VehicleFeature>();
+            Photos = new Collection<Photo>();
         }
     }
 }
