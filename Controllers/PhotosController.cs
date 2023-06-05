@@ -8,12 +8,14 @@ namespace aspnetcore_tutorial.Controllers
         private readonly IVehicleRepository repository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public PhotosController(IWebHostEnvironment host, IVehicleRepository repository, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly PhotoSettings photoSettings;
+        public PhotosController(IWebHostEnvironment host, IVehicleRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.repository = repository;
             this.host = host;
+            this.photoSettings = options.Value;
         }
 
         [HttpPost]
@@ -22,6 +24,11 @@ namespace aspnetcore_tutorial.Controllers
             var vehicle = await repository.GetVehicle(vehicleId, includeRelated: false);
             if (vehicle == null)
                 return NotFound();
+
+            if (file == null) return BadRequest("Null file");
+            if (file.Length == 0) return BadRequest("Empty file");
+            if (file.Length > photoSettings.MaxBytes) return BadRequest("Max file size exceeded");
+            if (!photoSettings.isSupported(file.FileName)) return BadRequest("Invalid file type");
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadsFolderPath))

@@ -5,6 +5,7 @@ global using System.Linq.Expressions;
 
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Options;
 
 global using AutoMapper;
 

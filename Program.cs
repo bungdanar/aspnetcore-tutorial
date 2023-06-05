@@ -23,6 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         .EnableDetailedErrors();
 });
 
+builder.Services.Configure<PhotoSettings>(builder.Configuration.GetSection("PhotoSettings"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
