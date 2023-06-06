@@ -7,6 +7,8 @@ namespace aspnetcore_tutorial.Persistence
         public DbSet<Feature> Features { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
