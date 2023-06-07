@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 namespace aspnetcore_tutorial.Controllers
 {
     [Route("api/[controller]")]
@@ -17,7 +19,7 @@ namespace aspnetcore_tutorial.Controllers
 
             var user = new User
             {
-                Username = resource.Username,
+                Username = resource.Username.ToLower(),
                 Email = resource.Email,
                 PasswordHash = passwordHash,
                 RoleId = resource.RoleId
@@ -32,5 +34,23 @@ namespace aspnetcore_tutorial.Controllers
                 Email = user.Email
             });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserResource resource)
+        {
+            var user = await context.Users.Where(u => u.Username == resource.Username.ToLower()).FirstOrDefaultAsync();
+            if (user == null)
+                return BadRequest("User not found");
+
+            if (!BCrypt.Net.BCrypt.Verify(resource.Password, user.PasswordHash))
+                return BadRequest("Password is wrong");
+
+            return Ok();
+        }
+
+        // private string CreateToken(User user)
+        // {
+        //     var claims = new List<Claim>{ new Claim()};
+        // }
     }
 }
