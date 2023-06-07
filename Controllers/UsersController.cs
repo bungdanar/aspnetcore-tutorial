@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 namespace aspnetcore_tutorial.Controllers
 {
     [Route("api/[controller]")]
@@ -7,8 +5,10 @@ namespace aspnetcore_tutorial.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext context;
-        public UsersController(AppDbContext context)
+        private readonly IConfiguration configuration;
+        public UsersController(AppDbContext context, IConfiguration configuration)
         {
+            this.configuration = configuration;
             this.context = context;
         }
 
@@ -45,12 +45,27 @@ namespace aspnetcore_tutorial.Controllers
             if (!BCrypt.Net.BCrypt.Verify(resource.Password, user.PasswordHash))
                 return BadRequest("Password is wrong");
 
-            return Ok();
+            var token = CreateToken(user);
+
+            return Ok(token);
         }
 
-        // private string CreateToken(User user)
-        // {
-        //     var claims = new List<Claim>{ new Claim()};
-        // }
+        private string CreateToken(User user)
+        {
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtPrivateKey"]!));
+
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddHours(2),
+                signingCredentials: credentials
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+        }
     }
 }
