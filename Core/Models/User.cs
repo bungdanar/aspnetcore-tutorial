@@ -1,7 +1,8 @@
 namespace aspnetcore_tutorial.Core.Models
 {
     [Table("Users")]
-    [Index(nameof(Username), nameof(Email), IsUnique = true)]
+    [Index(nameof(Username), IsUnique = true)]
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         public int Id { get; set; }
