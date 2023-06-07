@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -52,6 +51,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseAuthentication();
+app.UseMiddleware<RequireAdminMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
