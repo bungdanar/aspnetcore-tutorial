@@ -47,7 +47,10 @@ namespace aspnetcore_tutorial.Controllers
 
             var token = CreateToken(user);
 
-            return Ok(token);
+            return Ok(new
+            {
+                token = token
+            });
         }
 
         private string CreateToken(User user)

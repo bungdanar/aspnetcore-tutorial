@@ -13,7 +13,7 @@ namespace aspnetcore_tutorial.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<ActionResult> GetFeatures()
         {
             var features = await repository.GetFeatures();
